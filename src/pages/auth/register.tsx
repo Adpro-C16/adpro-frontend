@@ -1,14 +1,15 @@
-import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FormEventHandler, useState } from 'react'
 import axios, { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 import withPublic from '@/hoc/usePublic'
 
-const LoginPage = () => {
+const RegisterPage = () => {
 
+    const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -19,11 +20,10 @@ const LoginPage = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            let res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, { username, password });
+            let res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, { username, password, email });
             if (res.status !== 200) throw new Error(res.data);
-            localStorage.setItem('token', res.data.body.AuthToken);
-            router.replace('/');
-            toast.success('Logged in successfully');
+            router.replace('/auth/login');
+            toast.success('Registered successfully');
         } catch(e) {
             let err = e as AxiosError;
             toast.error(err.response?.data as string);
@@ -35,7 +35,7 @@ const LoginPage = () => {
   return (
     <>
     <Head>
-        <title>Login | Heymart C14</title>
+        <title>Register | Heymart C14</title>
     </Head>
     <main className='flex h-screen p-5 relative'>
         <h1 className="absolute text-3xl font-semibold flex items-center text-blue-500">
@@ -51,8 +51,12 @@ const LoginPage = () => {
         <div className='w-1/2 flex justify-center items-start flex-col px-12'>
             <div className="w-full max-w-lg">
 
-            <h1 className='text-5xl font-bold w-full text-left mb-8'>Sign in</h1>
+            <h1 className='text-5xl font-bold w-full text-left mb-8'>Sign Up</h1>
             <form onSubmit={handleSubmit} className='flex flex-col gap-3 w-full max-w-lg'>
+                <label className="input input-bordered flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" /><path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" /></svg>
+                  <input type="text" className="grow" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </label>
                 <label className="input input-bordered flex items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
                   <input type="text" className="grow" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -64,7 +68,7 @@ const LoginPage = () => {
                 <button disabled={!username || !password || loading} className="btn btn-primary text-white">Log in</button>
             </form>
             <p className='mt-8'>
-                Don&apos;t have an account? <Link href="/auth/register" className="text-blue-500">Sign up</Link>
+                Have an account? <Link href="/auth/login" className="text-blue-500">Sign in</Link>
             </p>
             </div>
         </div>
@@ -73,4 +77,4 @@ const LoginPage = () => {
   )
 }
 
-export default withPublic(LoginPage)
+export default withPublic(RegisterPage)
