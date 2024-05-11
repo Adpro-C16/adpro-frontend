@@ -1,21 +1,25 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
-import { FormEventHandler, useState } from 'react'
-import axios, { AxiosError } from 'axios'
-import { toast } from 'react-toastify'
-import { useRouter } from 'next/router'
-import withPublic from '@/hoc/usePublic'
+import Image from "next/image"
+import Link from "next/link"
 
-const LoginPage = () => {
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Lexend } from "next/font/google"
+import { FormEventHandler, useState } from "react"
+import axios, { AxiosError } from "axios"
+import { useRouter } from "next/router"
+import { CheckCheck, CircleX, Key, User2 } from "lucide-react"
+import { toast } from "sonner"
+const lexend = Lexend({ subsets: ["latin"] });
 
+
+export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-
     const router = useRouter();
 
-    const handleSubmit:  FormEventHandler<HTMLFormElement> = async (e) => {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
@@ -23,54 +27,81 @@ const LoginPage = () => {
             if (res.status !== 200) throw new Error(res.data);
             localStorage.setItem('token', res.data.body.AuthToken);
             router.replace('/');
-            toast.success('Logged in successfully');
-        } catch(e) {
+            toast('Success!', {
+                icon: <CheckCheck size={18} color="green" />,
+                description: "You have successfully logged in!",
+                action: {
+                    label: 'Close',
+                    onClick: () => { }
+                }
+            });
+        } catch (e) {
             let err = e as AxiosError;
-            toast.error(err.response?.data as string);
+            const msg = err.response?.data as string
+            toast('Oops...', {
+                icon: <CircleX size={18} color="red" />,
+                description: msg.length > 50 ? 'An error occurred while logging in' : msg,
+                action: {
+                    label: 'Close',
+                    onClick: () => { }
+                }
+            });
         } finally {
             setLoading(false);
         }
     }
 
-  return (
-    <>
-    <Head>
-        <title>Login | Heymart C14</title>
-    </Head>
-    <main className='flex h-screen p-5 relative'>
-        <h1 className="absolute text-3xl font-semibold flex items-center text-blue-500">
-            <span className='text-green-600'>Hey</span>
-            mart 
-        </h1>
-        <div className='w-1/2 flex justify-center items-center flex-col'>
-            <div className="relative w-[500px] h-[500px]">
-            <Image src='/shopping.svg' alt='login' fill className='object-cover' />
+    return (
+        <div style={lexend.style} className="w-full h-svh flex">
+            <div className="flex h-full justify-center w-1/2 flex-col items-center">
+                <div className="mx-auto grid w-[350px] gap-6">
+                    <div className="grid gap-2 text-center">
+                        <h1 className="text-3xl font-bold">Login</h1>
+                        <p className="text-balance text-sm mb-5 mt-2 text-muted-foreground">
+                            Enter your email below to login to your account
+                        </p>
+                    </div>
+                    <form onSubmit={handleSubmit} className="grid gap-5">
+                        <div className="grid gap-3">
+                            <Label htmlFor="username" className="flex items-center gap-2"><User2 size={16} />Username</Label>
+                            <Input
+                                id="username"
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="grid gap-3">
+                            <Label htmlFor="password" className="flex items-center gap-2"><Key size={16} />Password</Label>
+                            <Input
+                                id="password"
+                                type="password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        <Button disabled={!username || !password || loading} type="submit" className="w-full">
+                            Login
+                        </Button>
+                    </form>
+                    <div className="mt-4 text-center text-sm">
+                        Don&apos;t have an account?{" "}
+                        <Link href="/auth/register" className="underline">
+                            Sign up
+                        </Link>
+                    </div>
+                </div>
             </div>
-            <h1 className='text-lg -mt-5 opacity-70 text-center'>Shopping has never been eaiser with Heymart</h1>
-        </div>
-        <div className='w-1/2 flex justify-center items-start flex-col px-12'>
-            <div className="w-full max-w-lg">
-
-            <h1 className='text-5xl font-bold w-full text-left mb-8'>Sign in</h1>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-3 w-full max-w-lg'>
-                <label className="input input-bordered flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
-                  <input type="text" className="grow" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </label>
-                <label className="input input-bordered flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clipRule="evenodd" /></svg>
-                  <input type="password" className="grow" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                </label>
-                <button disabled={!username || !password || loading} className="btn btn-primary text-white">Log in</button>
-            </form>
-            <p className='mt-8'>
-                Don&apos;t have an account? <Link href="/auth/register" className="text-blue-500">Sign up</Link>
-            </p>
+            <div className="hidden w-1/2 relative bg-muted lg:block">
+                <Image
+                    src="/login_side.jpg"
+                    alt="Image"
+                    fill
+                    className="object-cover "
+                />
             </div>
         </div>
-    </main>
-    </>
-  )
+    )
 }
-
-export default withPublic(LoginPage)
