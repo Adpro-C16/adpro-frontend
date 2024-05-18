@@ -40,7 +40,7 @@ export default function Login() {
             const msg = err.response?.data as string
             toast('Oops...', {
                 icon: <CircleX size={18} color="red" />,
-                description: msg.length > 50 ? 'An error occurred while logging in' : msg,
+                description: msg.length > 50 ? 'An error occurred while logging in 😔' : msg,
                 action: {
                     label: 'Close',
                     onClick: () => { }
@@ -52,11 +52,12 @@ export default function Login() {
     }
 
     return (
-        <div style={lexend.style} className="w-full h-svh flex">
+        <div style={lexend.style} className="w-full h-svh flex relative">
+            <Image src="/icon-192.png" alt="Heymart" width={42} height={42} className="absolute top-5 left-5"/>
             <div className="flex h-full justify-center w-1/2 flex-col items-center">
                 <div className="mx-auto grid w-[350px] gap-6">
                     <div className="grid gap-2 text-center">
-                        <h1 className="text-3xl font-bold">Login</h1>
+                        <h1 className="text-3xl font-bold">Sign In</h1>
                         <p className="text-balance text-sm mb-5 mt-2 text-muted-foreground">
                             Enter your email below to login to your account
                         </p>
