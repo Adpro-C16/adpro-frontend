@@ -6,52 +6,34 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Lexend } from "next/font/google"
 import { FormEventHandler, useState } from "react"
-import axios, { AxiosError } from "axios"
-import { useRouter } from "next/router"
-import { CheckCheck, CircleX, Key, User2 } from "lucide-react"
-import { toast } from "sonner"
+import { useAuth } from "@/context/AuthContext"
+import withPublic from "@/hoc/usePublic"
+import { Key, User2 } from "lucide-react"
+import Head from "next/head"
 const lexend = Lexend({ subsets: ["latin"] });
 
-
-export default function Login() {
+export default withPublic(function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
+    const { login } = useAuth();
 
-    const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         setLoading(true);
         try {
-            let res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, { username, password });
-            if (res.status !== 200) throw new Error(res.data);
-            localStorage.setItem('token', res.data.body.AuthToken);
-            router.replace('/');
-            toast('Success!', {
-                icon: <CheckCheck size={18} color="green" />,
-                description: "You have successfully logged in!",
-                action: {
-                    label: 'Close',
-                    onClick: () => { }
-                }
-            });
-        } catch (e) {
-            let err = e as AxiosError;
-            const msg = err.response?.data as string
-            toast('Oops...', {
-                icon: <CircleX size={18} color="red" />,
-                description: msg.length > 50 ? 'An error occurred while logging in 😔' : msg,
-                action: {
-                    label: 'Close',
-                    onClick: () => { }
-                }
-            });
-        } finally {
+            login({ username, password });
+        }
+         finally {
             setLoading(false);
         }
     }
 
     return (
+        <>
+        <Head>
+            <title>Login | Heymart C14</title>
+        </Head>
         <div style={lexend.style} className="w-full h-svh flex relative">
             <Image src="/icon-192.png" alt="Heymart" width={42} height={42} className="absolute top-5 left-5"/>
             <div className="flex h-full justify-center w-1/2 flex-col items-center">
@@ -104,5 +86,6 @@ export default function Login() {
                 />
             </div>
         </div>
+        </>
     )
-}
+})

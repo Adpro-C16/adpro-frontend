@@ -6,6 +6,7 @@ import { Lexend } from "next/font/google";
 import Head from "next/head";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
+import { AuthProvider } from "@/context/AuthContext";
 
 const inter = Lexend({ subsets: ["latin"] });
 
@@ -19,7 +20,9 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <div className={`font-sans ${inter.className}`}>
         <TooltipProvider>
+          <AuthProvider>
           <Component {...pageProps} />
+          </AuthProvider>
         </TooltipProvider>
         <Toaster />
       </div>

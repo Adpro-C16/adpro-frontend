@@ -1,9 +1,12 @@
+import { useAuth } from "@/context/AuthContext";
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
 const Navbar = () => {
-  const [isBlur, setIsBlur] = useState(false)
+  const [isBlur, setIsBlur] = useState(false);
+
+  const { authToken, logout } = useAuth();
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -28,9 +31,23 @@ const Navbar = () => {
         <li>
           <Link href="/">Register your supermarket</Link>
         </li>
-        <li>
-          <Link href="/auth/login" className="px-3 py-2 border-white rounded-lg block border-2">Sign in</Link>
-        </li>
+          {
+            authToken ? (
+              <>
+              <li>
+                <Link href="/dashboard">Dashboard</Link>
+              </li>
+              <li>
+                <button onClick={logout}>Logout</button>
+              </li>
+              </>
+            ) : (
+              <li>
+              <Link href="/auth/login" className="px-3 py-2 border-white rounded-lg block border-2">Sign in</Link>
+            </li>
+            )
+          
+          }
       </ul>
     </nav>
   )
