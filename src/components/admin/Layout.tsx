@@ -4,6 +4,7 @@ import PopupSidebar from "./PopupSidebar";
 import Sidebar from "./Sidebar";
 import { Button } from "../ui/button";
 import { Lexend } from "next/font/google";
+import { useAuth } from "@/context/AuthContext";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -13,6 +14,9 @@ const lexend = Lexend({ subsets: ["latin"] });
 
 
 export default function Layout({ children }: LayoutProps) {
+
+    const { user, logout } = useAuth();
+
     return (
         <div style={lexend.style} className="flex min-h-screen w-full flex-col bg-muted/40">
             <Sidebar />
@@ -29,7 +33,7 @@ export default function Layout({ children }: LayoutProps) {
                                     className="overflow-hidden rounded-full"
                                 >
                                     <Image
-                                        src="https://ui-avatars.com/api/?background=115c02&color=fff&name=John+Doe"
+                                        src={user?.username ? `https://ui-avatars.com/api/?background=115c02&color=fff&name={${user?.username.replace(" ", "+")}}` : `https://ui-avatars.com/api/?background=115c02&color=fff&name=John+Doe`}
                                         width={36}
                                         height={36}
                                         alt="Avatar"
@@ -38,12 +42,12 @@ export default function Layout({ children }: LayoutProps) {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                <DropdownMenuLabel>Account Settings</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>Settings</DropdownMenuItem>
                                 <DropdownMenuItem>Support</DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem>Logout</DropdownMenuItem>
+                                <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>

@@ -8,7 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
 
-const inter = Lexend({ subsets: ["latin"] });
+const lexend = Lexend({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </Head>
-      <div className={`font-sans ${inter.className}`}>
+      <div className={`font-sans ${lexend.className}`}>
         <TooltipProvider>
           <AuthProvider>
           <Component {...pageProps} />

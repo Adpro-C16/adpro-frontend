@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
 import { ComponentType, useEffect, useState } from "react";
 
@@ -8,9 +9,10 @@ const withAuth = <T extends object>(Component: ComponentType<T>) => {
 
         const router = useRouter();
 
+        const { authToken } = useAuth();
+
         useEffect(() => {
-            let token = localStorage.getItem('token');
-            if (!token) {
+            if (!authToken) {
                 router.replace('/auth/login').then(() => {
                     setLoading(false);
                 });

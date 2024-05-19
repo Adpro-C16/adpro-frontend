@@ -1,11 +1,13 @@
 import axios, { AxiosError } from "axios";
 import { CheckCheck, CircleX } from "lucide-react";
 import { useRouter } from "next/router";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { jwtDecode } from "jwt-decode";
 
 type AuthContextType = {
     authToken: string;
+    user: {id: number; role: string, username: string; email: string; balance: number};
     login: (user: {username: string; password: string}) => void;
     register: (user: {username: string; email: string; password: string}) => void;
     logout: () => void;
@@ -13,6 +15,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({
     authToken: "",
+    user: {id: -1, role: "", username: "", email: "", balance: 0},
     login: () => {},
     register: () => {},
     logout: () => {},
@@ -21,6 +24,13 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
     const [authToken, setAuthToken] = useState("");
+    const [user, setUser] = useState({
+        id: -1,
+        role: "",
+        username: "",
+        email: "",
+        balance: 0
+    });
 
     const router = useRouter();
 
@@ -68,15 +78,40 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
     const logout = () => {
         localStorage.removeItem('token');
         setAuthToken('');
+        setUser({id: -1, role: "", username: "", email: "", balance: 0});
         router.replace('/auth/login');
     }
+
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        console.log(token)
+        if (token) {
+            let decoded = jwtDecode<{exp: number; id: number; role: string}>(token);
+            if (decoded.exp * 1000 < Date.now()) {
+                logout();
+            } else {
+                setAuthToken(token);
+                    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then(res => {
+                        console.log(res)
+                        setUser(res.data);
+                    }).catch(() => {
+                        logout();
+                    });
+            }
+        }
+    }, [])
 
     const contextValue = useMemo(() => ({
         authToken,
         login,
         register,
         logout,
-    }), [authToken, login, register, logout]);
+        user
+    }), [authToken, login, register, logout, user]);
 
     return (
         <AuthContext.Provider value={contextValue}>

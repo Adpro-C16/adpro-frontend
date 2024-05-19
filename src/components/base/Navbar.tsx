@@ -33,14 +33,14 @@ const Navbar = () => {
         </li>
           {
             authToken ? (
-              <>
+              // <>
               <li>
-                <Link href="/dashboard">Dashboard</Link>
+                <Link href="/admin/dashboard">Dashboard</Link>
               </li>
-              <li>
-                <button onClick={logout}>Logout</button>
-              </li>
-              </>
+              // <li>
+              //   <button onClick={logout}>Logout</button>
+              // </li>
+              // </>
             ) : (
               <li>
               <Link href="/auth/login" className="px-3 py-2 border-white rounded-lg block border-2">Sign in</Link>

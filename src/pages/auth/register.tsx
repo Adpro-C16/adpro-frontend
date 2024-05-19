@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FormEventHandler, useState } from 'react'
 import Head from 'next/head'
-import withPublic from '@/hoc/usePublic'
+import withPublic from '@/hoc/withPublic'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"

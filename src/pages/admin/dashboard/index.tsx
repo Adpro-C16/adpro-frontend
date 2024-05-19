@@ -24,8 +24,9 @@ import SupermarketRow from "@/components/admin/SupermarketRow"
 import Layout from "@/components/admin/Layout"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import Link from "next/link"
+import withAdmin from "@/hoc/withAdmin"
 
-export default function Dashboard() {
+export default withAdmin(function Dashboard() {
     return (
         <Layout>
             <Breadcrumb className="hidden md:flex">
@@ -105,4 +106,4 @@ export default function Dashboard() {
             </Card>
         </Layout>
     )
-}
+})

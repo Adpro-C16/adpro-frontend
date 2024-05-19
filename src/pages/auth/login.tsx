@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Lexend } from "next/font/google"
 import { FormEventHandler, useState } from "react"
 import { useAuth } from "@/context/AuthContext"
-import withPublic from "@/hoc/usePublic"
+import withPublic from "@/hoc/withPublic"
 import { Key, User2 } from "lucide-react"
 import Head from "next/head"
 const lexend = Lexend({ subsets: ["latin"] });
