@@ -1,4 +1,4 @@
-import { Home, LineChart, Package, Package2, ShoppingCart, Users2 } from "lucide-react";
+import { Home, Package2, ShoppingCart, Users2 } from "lucide-react";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useRouter } from "next/router";
@@ -35,6 +35,9 @@ export default function Sidebar() {
                     </TooltipTrigger>
                     <TooltipContent side="right">Dashboard</TooltipContent>
                 </Tooltip>
+                {
+                    user.role === "Admin" ?
+                    <>
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Link
@@ -59,6 +62,21 @@ export default function Sidebar() {
                     </TooltipTrigger>
                     <TooltipContent side="right">Managers</TooltipContent>
                 </Tooltip>
+                </>
+                : 
+                <Tooltip>
+                <TooltipTrigger asChild>
+                    <Link
+                        href="/dashboard/cart"
+                        className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
+                    >
+                        <ShoppingCart className="h-5 w-5" />
+                        <span className="sr-only">Cart</span>
+                    </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Shopping Cart</TooltipContent>
+            </Tooltip>
+                }   
             </nav>
         </aside>
     )
