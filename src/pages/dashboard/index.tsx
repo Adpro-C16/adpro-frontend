@@ -50,15 +50,18 @@ const OrdersPage = () => {
                 },
             })
             const data = await response.data
-            if (data.status_code !== 200) throw new Error(data.message)
-            toast.success("Payment Successfull", {
-                icon: <CheckCheck size={18} color="green" />,
-                description: `Item ${data.product_name} has been paid successfully!`,
-                action: {
-                    label: 'Close',
-                    onClick: () => { }
-                }
-            })
+            if (data.status_code && data.status_code !== 200) {
+                throw new Error(data.message);
+            }
+                    toast.success("Payment Successfull", {
+                        icon: <CheckCheck size={18} color="green" />,
+                        description: `Item ${data.product_name} has been paid successfully!`,
+                        action: {
+                            label: 'Close',
+                            onClick: () => { }
+                        }
+                    })
+            
             getOrders();
         } catch (error) {
             console.log(error)
