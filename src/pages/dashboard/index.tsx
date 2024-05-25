@@ -12,11 +12,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { toRupiah } from '@/util/rupiahFormater'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { Package, ShoppingCart, MoreHorizontal, Banknote } from 'lucide-react'
+import { Package, ShoppingCart, MoreHorizontal, Banknote, CheckCheck, CircleX } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/context/AuthContext'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 const OrdersPage = () => {
 
@@ -40,13 +41,45 @@ const OrdersPage = () => {
         }
     }
 
+    const pay = async (id: number) => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_ORDER_URL}/orders/${id}`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+            })
+            const data = await response.data
+            if (data.status_code !== 200) throw new Error(data.message)
+            toast.success("Payment Successfull", {
+                icon: <CheckCheck size={18} color="green" />,
+                description: `Item ${data.product_name} has been paid successfully!`,
+                action: {
+                    label: 'Close',
+                    onClick: () => { }
+                }
+            })
+            getOrders();
+        } catch (error) {
+            console.log(error)
+            toast.success("Oops...", {
+                icon: <CircleX size={18} color="red" />,
+                description: `Failed to pay order 😔`,
+                action: {
+                    label: 'Close',
+                    onClick: () => { }
+                }
+            })
+        }
+    } 
+
     useEffect(() => {
         getOrders();
     }, [])
 
   return (
     <Layout>
-        <div className="flex justify-between gap-8 items-center">
+        <div className="flex justify-between gap-8 items-center flex-col sm:flex-row max-w-screen">
 
         <Card className='w-full'>
             <CardHeader>
@@ -66,7 +99,7 @@ const OrdersPage = () => {
                     <Package className="h-10 w-10 text-primary" />
                     <div>
                         <h4 className="text-xl font-semibold">Total Orders</h4>
-                        <p className="text-lg text-muted-foreground">You have made 10 orders</p>
+                        <p className="text-lg text-muted-foreground">You have made {orders.length} orders</p>
                     </div>
                 </div>
             </CardHeader>
@@ -110,6 +143,7 @@ const OrdersPage = () => {
                         </TableHeader>
             <TableBody>
             {
+                orders.length > 0 ?
                 orders.map(order => (
                     <TableRow key={order.id}>
             <TableCell className="font-medium">
@@ -120,10 +154,10 @@ const OrdersPage = () => {
             </TableCell>
             <TableCell>{toRupiah(order.subtotal)}</TableCell>
             <TableCell className="hidden md:table-cell">
-                <Badge variant="default">{order.status}</Badge>
+                <Badge variant={order.status === "Paid" ? "default" : "secondary"}>{order.status}</Badge>
             </TableCell>
             <TableCell className="hidden md:table-cell">
-                {order.created_at}
+                {new Date(order.created_at).toLocaleString()}
             </TableCell>
             <TableCell>
                 <DropdownMenu>
@@ -139,13 +173,17 @@ const OrdersPage = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Pay</DropdownMenuItem>
-                        <DropdownMenuItem>Cancel</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => pay(order.id)}>Pay</DropdownMenuItem>
+                        {/* <DropdownMenuItem>Cancel</DropdownMenuItem> */}
                     </DropdownMenuContent>
                 </DropdownMenu>
             </TableCell>
         </TableRow>
                 ))
+                :
+                <TableRow>
+                    <TableCell colSpan={6} className="text-center text-xl py-7">No orders found</TableCell>
+                </TableRow>
             }
             
             </TableBody>
