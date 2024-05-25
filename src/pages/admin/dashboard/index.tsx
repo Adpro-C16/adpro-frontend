@@ -15,13 +15,12 @@ import { Input } from "@/components/ui/input"
 import {
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import SupermarketRow from "@/components/admin/SupermarketRow"
-import Layout from "@/components/admin/Layout"
+import SupermarketRow from "@/components/dashboard/SupermarketRow"
+import Layout from "@/components/dashboard/Layout"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import Link from "next/link"
 import withAdmin from "@/hoc/withAdmin"

@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import Layout from "@/components/admin/Layout"
+import Layout from "@/components/dashboard/Layout"
 
 export default function Dashboard() {
     return (

@@ -3,8 +3,8 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className='bg-[#F0F0AD] px-20 py-12'>
-      <div className="flex items-start gap-12 text-[#454545] font-medium">
+    <footer className='bg-[#F0F0AD] px-8 sm:px-10 md:px-20 py-8 sm:py-12'>
+      <div className="flex items-start flex-col sm:flex-row gap-12 text-[#454545] font-medium">
         <ul className='flex flex-col gap-2'>
           <li>
             <h3 className='text-xl font-bold text-black'>

@@ -23,8 +23,10 @@ export default function Layout({ children }: LayoutProps) {
             <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
                 <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
                     <PopupSidebar />
-                    <div className="w-full flex justify-between">
-                        <div></div>
+                    <div className="w-full flex justify-between items-center">
+                        <div>
+                            <h1 className="text-2xl font-semibold leading-none tracking-tight">Welcome {user.username}</h1>
+                        </div>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button

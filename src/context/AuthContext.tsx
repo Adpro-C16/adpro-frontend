@@ -40,7 +40,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
             if (res.status !== 200) throw new Error(res.data);
             localStorage.setItem('token', res.data.body.AuthToken);
             setAuthToken(res.data.body.AuthToken);
-            router.replace('/');
+            router.replace('/dashboard');
             toast('Success!', {
                 icon: <CheckCheck size={18} color="green" />,
                 description: "You have successfully logged in!",
