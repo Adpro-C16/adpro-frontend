@@ -1,4 +1,4 @@
-import { Home, Store, ShoppingCart, Users2 } from "lucide-react";
+import { Home, Store, ShoppingCart, Users2, ShoppingBasket } from "lucide-react";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ export default function Sidebar() {
                     href="/"
                     className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
                 >
-                    <Image src="/icon-192.png" alt="Heymart" width={42} height={42} className=""/>
+                    <Image src="/icon-192.png" alt="Heymart" width={42} height={42} className="" />
                     <span className="sr-only">Heymart C15</span>
                 </Link>
                 <Tooltip>
@@ -78,6 +78,18 @@ export default function Sidebar() {
                             <TooltipContent side="right">Your Shop</TooltipContent>
                         </Tooltip>
                 }
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Link
+                            href="/store"
+                            className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
+                        >
+                            <ShoppingBasket className="h-5 w-5" />
+                            <span className="sr-only">Go to Store</span>
+                        </Link>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">Go to Store</TooltipContent>
+                </Tooltip>
             </nav>
         </aside>
     )
