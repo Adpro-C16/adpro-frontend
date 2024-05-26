@@ -5,6 +5,7 @@ import { createContext, Dispatch, useContext, useEffect, useMemo, useState } fro
 import { toast } from "sonner";
 import { jwtDecode } from "jwt-decode";
 import { get } from "https";
+import LoadingScreen from "@/components/base/LoadingScreen";
 
 type AuthContextType = {
     authToken: string;
@@ -27,6 +28,7 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
     const [authToken, setAuthToken] = useState("");
+    const [loading, setLoading] = useState(true);
     const [user, setUser] = useState({
         id: -1,
         role: "",
@@ -104,6 +106,8 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
                         setUser(res.data);
                     }).catch(() => {
                         logout();
+                    }).finally(() => {
+                        setLoading(false);
                     });
             }
         }
@@ -124,7 +128,9 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
     return (
         <AuthContext.Provider value={contextValue}>
-            {children}
+            {!loading ? children : (
+                router.pathname === '/auth/login' || router.pathname === '/auth/register' || router.pathname === "/" ? children : <LoadingScreen />
+            )}
         </AuthContext.Provider>
     );
 }
