@@ -28,33 +28,30 @@ const Navbar = () => {
 
     <nav style={bricolage.style} className={`flex items-center justify-between px-5 md:px-12 h-[72px] fixed z-50 w-vw text-white ${router.pathname === '/' ? "fixed top-0 left-0 w-full" : "bg-primary-500 sticky top-0 left-0 "} ${router.pathname === '/' && isBlur ? "backdrop-blur bg-white bg-opacity-5 border-b-2 border-opacity-20 border-b-white" : ""}`}>
       <Link href="/" className="flex items-center gap-3 relative">
-        <Image src="/icon-192.png" alt="Heymart" width={42} height={42} className=""/>
+        <Image src="/icon-192.png" alt="Heymart" width={42} height={42} className="" />
         <h1 className="text-3xl font-bold ">Heymart</h1>
       </Link>
       <ul onClick={() => setShow(false)} className={`fixed top-0 sm:static ${show ? "left-0 bg-primary-500" : "-left-full"} text-xl sm:text-lg w-full h-svh sm:w-fit sm:h-full transition-all duration-500 flex items-center justify-center flex-col sm:flex-row gap-5 font-medium`}>
         <li>
           <Link href="/products">Explore</Link>
         </li>
-        <li>
-          <Link href="/">Register your supermarket</Link>
-        </li>
-          {
-            authToken ? (
-              // <>
-              <li>
-                <Link href={user.role === "Admin" ? `/admin/dashboard` : "/dashboard"}>Dashboard</Link>
-              </li>
-              // <li>
-              //   <button onClick={logout}>Logout</button>
-              // </li>
-              // </>
-            ) : (
-              <li>
+        {
+          authToken ? (
+            // <>
+            <li>
+              <Link href={user.role === "Admin" ? `/admin/dashboard` : "/dashboard"}>Dashboard</Link>
+            </li>
+            // <li>
+            //   <button onClick={logout}>Logout</button>
+            // </li>
+            // </>
+          ) : (
+            <li>
               <Link href="/auth/login" className="px-3 py-2 border-white rounded-lg block border-2">Sign in</Link>
             </li>
-            )
-          
-          }
+          )
+
+        }
       </ul>
       <button className='md:hidden z-[1]' onClick={() => setShow(!show)}>
         <div className={`w-6 h-0.5 rounded bg-white mb-1.5 transition-all ${show ? "rotate-45 translate-y-2" : ""}`}></div>
