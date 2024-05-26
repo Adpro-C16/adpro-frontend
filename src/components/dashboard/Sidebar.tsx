@@ -51,18 +51,6 @@ export default function Sidebar() {
                                 </TooltipTrigger>
                                 <TooltipContent side="right">Add Supermarkets</TooltipContent>
                             </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link
-                                        href="/admin/managers"
-                                        className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
-                                    >
-                                        <Users2 className="h-5 w-5" />
-                                        <span className="sr-only">Managers</span>
-                                    </Link>
-                                </TooltipTrigger>
-                                <TooltipContent side="right">Managers</TooltipContent>
-                            </Tooltip>
                         </>
                         :
                         <Tooltip>
