@@ -161,7 +161,7 @@ export default function Dashboard() {
                                             id="name"
                                             type="text"
                                             className="w-full"
-                                            defaultValue="Gamer Gear Pro Controller"
+                                            placeholder="Enter the name of the supermarket"
                                         />
                                     </div>
                                 </div>

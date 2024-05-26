@@ -1,4 +1,4 @@
-import { Home, Store, ShoppingCart, Users2, ShoppingBasket } from "lucide-react";
+import { Home, Store, ShoppingCart, Users2, ShoppingBasket, Building2 } from "lucide-react";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useRouter } from "next/router";
@@ -27,8 +27,8 @@ export default function Sidebar() {
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <Link
-                            href={user.role === "Admin" ? "/admin/dashboard" : "/dashboard"}
-                            className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/dashboard"))}
+                            href="/dashboard"
+                            className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/dashboard"))}
                         >
                             <Home className="h-5 w-5" />
                             <span className="sr-only">Dashboard</span>
@@ -42,6 +42,19 @@ export default function Sidebar() {
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Link
+                                        href="/admin/dashboard"
+                                        className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/dashboard"))}
+                                    >
+                                        <Building2 className="h-5 w-5" />
+                                        <span className="sr-only">Admin Dashboard</span>
+                                    </Link>
+                                </TooltipTrigger>
+                                <TooltipContent side="right">Admin Dashboard</TooltipContent>
+                            </Tooltip>
+                            <Tooltip></Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Link
                                         href="/admin/supermarkets/create"
                                         className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/supermarkets/create"))}
                                     >
@@ -51,25 +64,13 @@ export default function Sidebar() {
                                 </TooltipTrigger>
                                 <TooltipContent side="right">Add Supermarkets</TooltipContent>
                             </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Link
-                                        href="/admin/managers"
-                                        className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
-                                    >
-                                        <Users2 className="h-5 w-5" />
-                                        <span className="sr-only">Managers</span>
-                                    </Link>
-                                </TooltipTrigger>
-                                <TooltipContent side="right">Managers</TooltipContent>
-                            </Tooltip>
                         </>
                         :
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Link
                                     href="/dashboard/supermarket"
-                                    className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
+                                    className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/dashboard/supermarket"))}
                                 >
                                     <Store className="h-5 w-5" />
                                     <span className="sr-only">Your Shop</span>
@@ -82,7 +83,7 @@ export default function Sidebar() {
                     <TooltipTrigger asChild>
                         <Link
                             href="/store"
-                            className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
+                            className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/store"))}
                         >
                             <ShoppingBasket className="h-5 w-5" />
                             <span className="sr-only">Go to Store</span>
