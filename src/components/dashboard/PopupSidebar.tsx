@@ -2,6 +2,7 @@ import { Home, LineChart, Package, Package2, PanelLeft, ShoppingCart, Users2 } f
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function PopupSidebar() {
     return (
@@ -18,8 +19,8 @@ export default function PopupSidebar() {
                         href="#"
                         className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
                     >
-                        <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
-                        <span className="sr-only">Acme Inc</span>
+                        <Image src="/icon-192.png" alt="Heymart" width={42} height={42} className=""/>
+                        <span className="sr-only">Heymart C15</span>
                     </Link>
                     <Link
                         href="#"
