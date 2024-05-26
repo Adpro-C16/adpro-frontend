@@ -41,12 +41,13 @@ const SupermarketPage = () => {
             })
             const data: Supermarket[] = await response.data
             setSupermarket(data.length > 0 ? data[0] : null);
+            return data.length > 0 ? data[0] : null;
         } catch (error) {
             console.log(error)
         }
     }
 
-    const getOrders = async () => {
+    const getOrders = async (supermarket_id: number) => {
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_ORDER_URL}/orders`, {
                 method: 'GET',
@@ -56,13 +57,13 @@ const SupermarketPage = () => {
                 }
             })
             const data: Order[] = await response.data
-            setOrders(data.filter(order => order.supermarket_id === user.id));
+            setOrders(data.filter(order => order.supermarket_id === supermarket_id));
         } catch (error) {
             console.log(error)
         }
     }
 
-    const getProducts = async () => {
+    const getProducts = async (supermarket_id: number) => {
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_SUPERMARKET_URL}/products`, {
                 method: 'GET',
@@ -72,7 +73,7 @@ const SupermarketPage = () => {
                 }
             })
             const data: Product[] = await response.data
-            setProducts(data);
+            setProducts(data.filter(product => product.supermarket_id === supermarket_id));
         } catch (error) {
             console.log(error)
         }
@@ -99,7 +100,7 @@ const SupermarketPage = () => {
                     onClick: () => { }
                 }
             })
-            getProducts();
+            getProducts(supermarket!.id);
         } catch (error) {
             console.log(error);
             toast.error("Oops...", {
@@ -114,9 +115,10 @@ const SupermarketPage = () => {
     }
 
     useEffect(() => {
-        getSupermarket().then(() => {
-        getOrders();
-        getProducts();
+        getSupermarket().then((res) => {
+            if (!res) return;
+            getOrders(res.id);
+            getProducts(res.id);
         });
     }, [])
 
@@ -194,7 +196,7 @@ const SupermarketPage = () => {
                                 Create Product
                             </Button>
                         </DialogTrigger>
-                        <CreateProductModal onSuccess={() => getProducts()} supermarket_id={supermarket!.id} />
+                        <CreateProductModal onSuccess={() => getProducts(supermarket!.id)} supermarket_id={supermarket!.id} />
                     </Dialog>
                 </div>
             </CardHeader>
