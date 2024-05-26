@@ -102,7 +102,6 @@ export default withAuth(function Dashboard() {
                                     <SupermarketRow
                                         id={s.id}
                                         name={s.name}
-                                        balance={s.balance}
                                     />
                                 </React.Fragment>
                             ))}
