@@ -101,7 +101,7 @@ export default function ProductRow({ product, supermarket }: { product: Product,
                                 }
                             })
                             await axios.put(`${process.env.NEXT_PUBLIC_SUPERMARKET_URL}/products/${product.product_id}`, {
-                                name: itemName,
+                                product_name: itemName,
                                 product_price: itemPrice
                             }, {
                                 headers: {
