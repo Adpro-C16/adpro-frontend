@@ -21,7 +21,7 @@ import { toast } from 'sonner'
 
 const OrdersPage = () => {
 
-    const { authToken, user } = useAuth();
+    const { authToken, user, setUser } = useAuth();
 
     const [orders, setOrders] = useState<Order[]>([]);
 
@@ -53,6 +53,10 @@ const OrdersPage = () => {
             if (data.status_code && data.status_code !== 200) {
                 throw new Error(data.message);
             }
+            setUser({
+                ...user,
+                balance: user.balance - data.subtotal
+            });
                     toast.success("Payment Successfull", {
                         icon: <CheckCheck size={18} color="green" />,
                         description: `Item ${data.product_name} has been paid successfully!`,
@@ -82,10 +86,10 @@ const OrdersPage = () => {
 
   return (
     <Layout>
-        <div className="flex justify-between gap-8 items-center flex-col sm:flex-row max-w-screen">
+        <div className="flex justify-between gap-8 items-stretch flex-col sm:flex-row max-w-screen">
 
         <Card className='w-full'>
-            <CardHeader>
+            <CardHeader className='w-full h-full justify-center'>
                 <div className="flex items-center gap-4">
 
             <Banknote className="h-10 w-10 text-primary" />
@@ -97,7 +101,7 @@ const OrdersPage = () => {
             </CardHeader>
         </Card>
         <Card className='w-full'>
-            <CardHeader>
+        <CardHeader className='w-full h-full justify-center'>
                 <div className="flex items-center gap-4">
                     <Package className="h-10 w-10 text-primary" />
                     <div>
@@ -108,7 +112,7 @@ const OrdersPage = () => {
             </CardHeader>
         </Card>
         <Card className='w-full'>
-            <CardHeader>
+        <CardHeader className='w-full h-full justify-center'>
                 <div className="flex items-center gap-4">
                     <ShoppingCart className="h-10 w-10 text-primary" />
                     <div>

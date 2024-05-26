@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { CheckCheck, CircleX } from "lucide-react";
 import { useRouter } from "next/router";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, Dispatch, useContext, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { jwtDecode } from "jwt-decode";
 import { get } from "https";
@@ -12,6 +12,7 @@ type AuthContextType = {
     login: (user: {username: string; password: string}) => void;
     register: (user: {username: string; email: string; password: string}) => void;
     logout: () => void;
+    setUser: Dispatch<React.SetStateAction<{id: number; role: string, username: string; email: string; balance: number}>>;
     };
 
 const AuthContext = createContext<AuthContextType>({
@@ -20,6 +21,7 @@ const AuthContext = createContext<AuthContextType>({
     login: () => {},
     register: () => {},
     logout: () => {},
+    setUser: () => {}
 });
 
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
@@ -116,7 +118,8 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         login,
         register,
         logout,
-        user
+        user,
+        setUser
     }), [authToken, login, register, logout, user]);
 
     return (

@@ -1,10 +1,8 @@
-import Image from "next/image";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import PopupSidebar from "./PopupSidebar";
 import Sidebar from "./Sidebar";
-import { Button } from "../ui/button";
 import { Lexend } from "next/font/google";
 import { useAuth } from "@/context/AuthContext";
+import UserSettings from "./UserSettings";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -27,37 +25,14 @@ export default function Layout({ children }: LayoutProps) {
                         <div>
                             <h1 className="text-2xl font-semibold leading-none tracking-tight">Welcome {user.username}</h1>
                         </div>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    className="overflow-hidden rounded-full"
-                                >
-                                    <Image
-                                        src={user?.username ? `https://ui-avatars.com/api/?background=115c02&color=fff&name={${user?.username.replace(" ", "+")}}` : `https://ui-avatars.com/api/?background=115c02&color=fff&name=John+Doe`}
-                                        width={36}
-                                        height={36}
-                                        alt="Avatar"
-                                        className="overflow-hidden rounded-full"
-                                    />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Account Settings</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>Settings</DropdownMenuItem>
-                                <DropdownMenuItem>Support</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <UserSettings />
                     </div>
                 </header>
                 <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
                     {children}
                 </main>
             </div>
+            
         </div>
     )
 }
