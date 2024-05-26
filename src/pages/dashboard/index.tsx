@@ -6,7 +6,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-  } from "@/components/ui/table"
+} from "@/components/ui/table"
 import Layout from '@/components/dashboard/Layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { toRupiah } from '@/util/rupiahFormater'
@@ -66,15 +66,15 @@ const OrdersPage = () => {
                     'Content-Type': 'application/json',
                 }
             });
-                    toast.success("Payment Successfull", {
-                        icon: <CheckCheck size={18} color="green" />,
-                        description: `Item ${data.product_name} has been paid successfully!`,
-                        action: {
-                            label: 'Close',
-                            onClick: () => { }
-                        }
-                    })
-            
+            toast.success("Payment Successfull", {
+                icon: <CheckCheck size={18} color="green" />,
+                description: `Item ${data.product_name} has been paid successfully!`,
+                action: {
+                    label: 'Close',
+                    onClick: () => { }
+                }
+            })
+
             getOrders();
         } catch (error) {
             console.log(error)
@@ -87,51 +87,51 @@ const OrdersPage = () => {
                 }
             })
         }
-    } 
+    }
 
     useEffect(() => {
         getOrders();
     }, [])
 
-  return (
-    <Layout>
-        <div className="flex justify-between gap-8 items-stretch flex-col sm:flex-row max-w-screen">
+    return (
+        <Layout>
+            <div className="flex justify-between gap-8 items-stretch flex-col sm:flex-row max-w-screen">
 
-        <Card className='w-full'>
-            <CardHeader className='w-full h-full justify-center'>
-                <div className="flex items-center gap-4">
+                <Card className='w-full'>
+                    <CardHeader className='w-full h-full justify-center'>
+                        <div className="flex items-center gap-4">
 
-            <Banknote className="h-10 w-10 text-primary" />
-                <div className="">
-                    <h4 className="text-xl font-semibold">Balance</h4>
-                    <p className="text-lg text-muted-foreground">{toRupiah(user.balance)}</p>
-                </div>
-                </div>
-            </CardHeader>
-        </Card>
-        <Card className='w-full'>
-        <CardHeader className='w-full h-full justify-center'>
-                <div className="flex items-center gap-4">
-                    <Package className="h-10 w-10 text-primary" />
-                    <div>
-                        <h4 className="text-xl font-semibold">Total Orders</h4>
-                        <p className="text-lg text-muted-foreground">You have made {orders.length} orders</p>
-                    </div>
-                </div>
-            </CardHeader>
-        </Card>
-        <Card className='w-full'>
-        <CardHeader className='w-full h-full justify-center'>
-                <div className="flex items-center gap-4">
-                    <ShoppingCart className="h-10 w-10 text-primary" />
-                    <div>
-                        <h4 className="text-xl font-semibold">Wishlisted Items</h4>
-                        <p className="text-lg text-muted-foreground">You have {cart.length} items in your cart</p>
-                    </div>
-                </div>
-            </CardHeader>
-        </Card>
-        </div>
+                            <Banknote className="h-10 w-10 text-primary" />
+                            <div className="">
+                                <h4 className="text-xl font-semibold">Balance</h4>
+                                <p className="text-lg text-muted-foreground">{toRupiah(user.balance)}</p>
+                            </div>
+                        </div>
+                    </CardHeader>
+                </Card>
+                <Card className='w-full'>
+                    <CardHeader className='w-full h-full justify-center'>
+                        <div className="flex items-center gap-4">
+                            <Package className="h-10 w-10 text-primary" />
+                            <div>
+                                <h4 className="text-xl font-semibold">Total Orders</h4>
+                                <p className="text-lg text-muted-foreground">You have made {orders.length} orders</p>
+                            </div>
+                        </div>
+                    </CardHeader>
+                </Card>
+                <Card className='w-full'>
+                    <CardHeader className='w-full h-full justify-center'>
+                        <div className="flex items-center gap-4">
+                            <ShoppingCart className="h-10 w-10 text-primary" />
+                            <div>
+                                <h4 className="text-xl font-semibold">Wishlisted Items</h4>
+                                <p className="text-lg text-muted-foreground">You have {cart.length} items in your cart</p>
+                            </div>
+                        </div>
+                    </CardHeader>
+                </Card>
+            </div>
             <Card x-chunk="dashboard-06-chunk-0">
                 <CardHeader>
                     <CardTitle>Cart</CardTitle>
@@ -140,8 +140,8 @@ const OrdersPage = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-        <Table>
-            <TableHeader>
+                    <Table>
+                        <TableHeader>
                             <TableRow>
                                 <TableHead>Product Name</TableHead>
                                 <TableHead>Quantity</TableHead>
@@ -157,54 +157,54 @@ const OrdersPage = () => {
                                 </TableHead>
                             </TableRow>
                         </TableHeader>
-            <TableBody>
-            {
-                cart.length > 0 ?
-                cart.map(order => (
-                    <TableRow key={order.id}>
-            <TableCell className="font-medium">
-                {order.product_name}
-            </TableCell>
-            <TableCell className="font-medium">
-                {order.quantity}
-            </TableCell>
-            <TableCell>{toRupiah(order.subtotal)}</TableCell>
-            <TableCell className="hidden md:table-cell">
-                <Badge variant={order.status === "Paid" ? "default" : "secondary"}>{order.status}</Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell">
-                {new Date(order.created_at).toLocaleString()}
-            </TableCell>
-            <TableCell>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            aria-haspopup="true"
-                            size="icon"
-                            variant="ghost"
-                        >
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Toggle menu</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => pay(order.id)}>Pay</DropdownMenuItem>
-                        {/* <DropdownMenuItem>Cancel</DropdownMenuItem> */}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </TableCell>
-        </TableRow>
-                ))
-                :
-                <TableRow>
-                    <TableCell colSpan={6} className="text-center text-xl py-7">No items in your cart   </TableCell>
-                </TableRow>
-            }
-            
-            </TableBody>
-        </Table>
-        </CardContent>
+                        <TableBody>
+                            {
+                                cart.length > 0 ?
+                                    cart.map(order => (
+                                        <TableRow key={order.id}>
+                                            <TableCell className="font-medium">
+                                                {order.product_name}
+                                            </TableCell>
+                                            <TableCell className="font-medium">
+                                                {order.quantity}
+                                            </TableCell>
+                                            <TableCell>{toRupiah(order.subtotal)}</TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                <Badge variant={order.status === "Paid" ? "default" : "secondary"}>{order.status}</Badge>
+                                            </TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                {new Date(order.created_at).toLocaleString()}
+                                            </TableCell>
+                                            <TableCell>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button
+                                                            aria-haspopup="true"
+                                                            size="icon"
+                                                            variant="ghost"
+                                                        >
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                            <span className="sr-only">Toggle menu</span>
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuItem onClick={() => pay(order.id)}>Pay</DropdownMenuItem>
+                                                        {/* <DropdownMenuItem>Cancel</DropdownMenuItem> */}
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                    :
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="text-center text-xl py-7">No items in your cart   </TableCell>
+                                    </TableRow>
+                            }
+
+                        </TableBody>
+                    </Table>
+                </CardContent>
             </Card>
             <Card x-chunk="dashboard-06-chunk-0">
                 <CardHeader>
@@ -214,8 +214,8 @@ const OrdersPage = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-        <Table>
-            <TableHeader>
+                    <Table>
+                        <TableHeader>
                             <TableRow>
                                 <TableHead>Order ID</TableHead>
                                 <TableHead>Product Name</TableHead>
@@ -229,41 +229,41 @@ const OrdersPage = () => {
                                 </TableHead>
                             </TableRow>
                         </TableHeader>
-            <TableBody>
-            {
-                orders.filter(order => order.status !== "WaitingPayment").length > 0 ?
-                orders.filter(order => order.status !== "WaitingPayment").map(order => (
-                    <TableRow key={order.id}>
-            <TableCell className="font-medium">
-                {order.id}
-            </TableCell>
-            <TableCell className="font-medium">
-                {order.product_name}
-            </TableCell>
-            <TableCell className="font-medium">
-                {order.quantity}
-            </TableCell>
-            <TableCell>{toRupiah(order.subtotal)}</TableCell>
-            <TableCell className="hidden md:table-cell">
-                <Badge variant={order.status === "Paid" ? "default" : "secondary"}>{order.status}</Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell">
-                {new Date(order.created_at).toLocaleString()}
-            </TableCell>
-        </TableRow>
-                ))
-                :
-                <TableRow>
-                    <TableCell colSpan={6} className="text-center text-xl py-7">No orders found</TableCell>
-                </TableRow>
-            }
-            
-            </TableBody>
-        </Table>
-        </CardContent>
+                        <TableBody>
+                            {
+                                orders.filter(order => order.status !== "WaitingPayment").length > 0 ?
+                                    orders.filter(order => order.status !== "WaitingPayment").map(order => (
+                                        <TableRow key={order.id}>
+                                            <TableCell className="font-medium">
+                                                {order.id}
+                                            </TableCell>
+                                            <TableCell className="font-medium">
+                                                {order.product_name}
+                                            </TableCell>
+                                            <TableCell className="font-medium">
+                                                {order.quantity}
+                                            </TableCell>
+                                            <TableCell>{toRupiah(order.subtotal)}</TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                <Badge variant={order.status === "Paid" ? "default" : "secondary"}>{order.status}</Badge>
+                                            </TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                {new Date(order.created_at).toLocaleString()}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                    :
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="text-center text-xl py-7">No orders found</TableCell>
+                                    </TableRow>
+                            }
+
+                        </TableBody>
+                    </Table>
+                </CardContent>
             </Card>
-    </Layout>
-  )
+        </Layout>
+    )
 }
 
 export default withAuth(OrdersPage)

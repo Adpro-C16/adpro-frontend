@@ -24,9 +24,10 @@ import Layout from "@/components/dashboard/Layout"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import Link from "next/link"
 import withAdmin from "@/hoc/withAdmin"
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { createContext } from "react"
+import { unstable_noStore as noStore } from "next/cache"
 
 export interface Supermarket {
     id: number;
@@ -39,10 +40,13 @@ export interface Supermarket {
 
 export const SupermarketContext = createContext({
     supermarkets: [] as Supermarket[],
-    setSupermarkets: (supermarkets: Supermarket[]) => { }
+    setSupermarkets: (supermarkets: any) => {
+        return supermarkets
+    }
 })
 
 export default withAdmin(function Dashboard() {
+    noStore()
     const [supermarkets, setSupermarkets] = useState<Supermarket[]>([]);
     const [search, setSearch] = useState("");
     const [filteredSupermarkets, setFilteredSupermarkets] = useState<Supermarket[]>([]);
@@ -53,7 +57,7 @@ export default withAdmin(function Dashboard() {
             return
         }
         setFilteredSupermarkets(supermarkets.filter(s => s.name.toLowerCase().includes(search.toLowerCase())))
-    }, [search])
+    }, [search, supermarkets])
 
 
     useEffect(() => {

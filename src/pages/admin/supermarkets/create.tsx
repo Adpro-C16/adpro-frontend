@@ -81,7 +81,9 @@ export default function Dashboard() {
             </Breadcrumb>
             <div className="flex flex-col">
                 <div className="flex items-center mb-5 gap-4">
-                    <Button variant="outline" size="icon" className="h-7 w-7">
+                    <Button onClick={async () => {
+                        await router.push("/admin/dashboard")
+                    }} variant="outline" size="icon" className="h-7 w-7">
                         <ChevronLeft className="h-4 w-4" />
                         <span className="sr-only">Back</span>
                     </Button>
@@ -90,7 +92,9 @@ export default function Dashboard() {
                     </h1>
                 </div>
                 <div className="flex items-center my-5 gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button onClick={async () => {
+                        await router.push("/admin/dashboard")
+                    }} variant="outline" size="sm">
                         Discard
                     </Button>
                     <Button onClick={async () => {

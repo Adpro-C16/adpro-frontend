@@ -76,14 +76,14 @@ export default function SupermarketRow({ id, name, balance }: SupermarketRowProp
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => setEdit(true)}>Edit</DropdownMenuItem>
                         <DropdownMenuItem onClick={async () => {
+                            setSupermarkets(() => supermarkets.filter(s => s.id !== id))
+                            toast("Supermarket deleted successfully", {
+                                icon: <CheckCircleIcon size={18} color="green" />
+                            })
                             await axios.delete(`https://heymart-management-6ndsbjpnka-ew.a.run.app/supermarkets/${id}`, {
                                 headers: {
                                     Authorization: `Bearer ${authToken}`
                                 }
-                            })
-                            setSupermarkets(supermarkets.filter(s => s.id !== id))
-                            toast("Supermarket deleted successfully", {
-                                icon: <CheckCircleIcon size={18} color="green" />
                             })
                         }}>Delete</DropdownMenuItem>
                     </DropdownMenuContent>
