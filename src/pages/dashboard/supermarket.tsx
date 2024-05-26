@@ -18,10 +18,8 @@ import { Badge } from "@/components/ui/badge";
 import { toRupiah } from "@/util/rupiahFormater";
 import { Button } from "@/components/ui/button";
 import CreateProductModal from "@/components/modals/CreateProductModal";
-import { Banknote, Package, Plus, MoreHorizontal, SquareGanttChart, CheckCheck, CircleX } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
+import { Banknote, Package, Plus, SquareGanttChart } from "lucide-react";
+import WithdrawModal from "@/components/modals/WithdrawModal";
 
 
 const SupermarketPage = () => {
@@ -108,9 +106,21 @@ const SupermarketPage = () => {
     return (
         <Layout>
             <Card>
-                <CardHeader>
-                    <CardTitle>{supermarket?.name}</CardTitle>
-                    <CardDescription>Joined since {new Date(supermarket?.created_at).toLocaleDateString()}</CardDescription>
+                <CardHeader className="flex items-center justify-between flex-row">
+                    <div className="">
+                        <CardTitle>{supermarket?.name}</CardTitle>
+                        <CardDescription>Joined since {new Date(supermarket?.created_at).toLocaleDateString()}</CardDescription>
+                    </div>
+                    <div className="">
+                        <Dialog>
+                            <DialogTrigger>
+                                <Button variant="default" className="ml-auto">
+                                    Withdraw
+                                </Button>
+                            </DialogTrigger>
+                            <WithdrawModal onSuccess={() => getSupermarket()} supermarket_id={supermarket.id} />
+                        </Dialog>
+                    </div>
                 </CardHeader>
             </Card>
             <div className="flex justify-between gap-8 items-stretch flex-col sm:flex-row max-w-screen">
@@ -163,7 +173,7 @@ const SupermarketPage = () => {
                                     Create Product
                                 </Button>
                             </DialogTrigger>
-                            <CreateProductModal onSuccess={() => getProducts(supermarket!.id)} supermarket_id={supermarket!.id} />
+                            <CreateProductModal onSuccess={() => getProducts(supermarket.id)} supermarket_id={supermarket.id} />
                         </Dialog>
                     </div>
                 </CardHeader>
