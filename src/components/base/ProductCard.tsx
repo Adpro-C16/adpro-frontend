@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext"
 import { toast } from "sonner"
 import { CheckCheck, CircleX, Minus, Plus } from "lucide-react"
 import { Input } from "../ui/input"
+import { TableCell, TableRow } from "../ui/table"
 
 
 const ProductCard = ({
@@ -52,24 +53,19 @@ const ProductCard = ({
   }
 
   return (
-    <Card className="relative rounded-md">
-        <CardHeader className="p-0 relative max-w-[270px] aspect-[4/3]">
-            <Image src="/placeholder.webp" alt="product" fill className="w-full object-cover" />
-        </CardHeader>
-        <CardContent className="border-t-2 border-t-slate-100 pt-4">
-            <CardTitle>{product_name}</CardTitle>
-            <CardDescription>
+    <TableRow key={product_id}>
+            <TableCell>{product_name}</TableCell>
+            <TableCell>
             {toRupiah(product_price)}
-            </CardDescription>
-        </CardContent>
-        <CardFooter className="gap-3 flex-col">
+            </TableCell>
+        <TableCell className="gap-3 flex-col">
             <div className="flex items-center">
               <Button onClick={() => setQuantity(quantity => quantity - 1 < 0 ? 0 : quantity - 1)} variant="outline" size="sm" className="h-9 rounded-r-none">
                 <Minus size={16} />
               </Button>
               <Input
-                  id="amount"
-                  className="h-full rounded-none border-x-0"
+                  id="product-quantity-num-input"
+                  className="h-full rounded-none border-x-0 w-12"
                   type="number"
                   required
                   placeholder="Enter amount"
@@ -81,9 +77,11 @@ const ProductCard = ({
                 <Plus size={16} />
               </Button>
             </div>
+        </TableCell>
+        <TableCell>
             <Button onClick={addToCart} size="sm" className="w-full">Add to Cart</Button>
-        </CardFooter>
-    </Card>
+        </TableCell>
+    </TableRow>
   )
 }
 

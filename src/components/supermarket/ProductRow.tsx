@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 
 
-export default function SupermarketRow({ product, supermarket }: { product: Product, supermarket: Supermarket }) {
+export default function ProductRow({ product, supermarket }: { product: Product, supermarket: Supermarket }) {
     const [edit, setEdit] = useState(false)
     const { authToken } = useAuth();
     const [products, setProducts] = useState<Product[]>([]);
@@ -85,7 +85,7 @@ export default function SupermarketRow({ product, supermarket }: { product: Prod
                     value={itemPrice}
                 />
             )}</TableCell>
-            {edit && (
+            {edit ? (
                 <>
                     <TableCell>
                         <CheckCheck onClick={async () => {
@@ -120,8 +120,8 @@ export default function SupermarketRow({ product, supermarket }: { product: Prod
                         }} size={18} color="red" className="cursor-pointer" />
                     </TableCell>
                 </>
-            )}
-            {!edit && <TableCell>
+            ) : null}
+            {!edit ? <TableCell>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
@@ -139,7 +139,7 @@ export default function SupermarketRow({ product, supermarket }: { product: Prod
                         <DropdownMenuItem onClick={() => deleteProduct(product.product_id)}>Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
-            </TableCell>}
+            </TableCell> : null}
         </TableRow>
     )
 }
