@@ -58,80 +58,78 @@ const UserSettings = () => {
             })
         }
     }
-    
-  return (
-    <>
-    <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-            <Button
-                variant="outline"
-                size="icon"
-                className="overflow-hidden rounded-full"
-            >
-                <Image
-                    src={user?.username ? `https://ui-avatars.com/api/?background=115c02&color=fff&name={${user?.username.replace(" ", "+")}}` : `https://ui-avatars.com/api/?background=115c02&color=fff&name=John+Doe`}
-                    width={36}
-                    height={36}
-                    alt="Avatar"
-                    className="overflow-hidden rounded-full"
-                />
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Account Settings</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="p-0">
-                <Button onClick={() => setIsOpened(true)} variant="ghost" className="px-2 py-1.5 h-fit w-full justify-start font-normal">
-                    Topup
-                </Button>
-            </DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
-        </DropdownMenuContent>
-    </DropdownMenu>
-    <Dialog open={isOpened}>
-        <DialogContent className="sm:max-w-[425px]">
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                topup()
-            }} >
 
-            <DialogHeader>
-                <DialogTitle>Topup</DialogTitle>
-                <DialogDescription>
-                    Add funds to your account
-                </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right">
-                    Amount
-                </Label>
-                <Input
-                    id="amount"
-                    className="col-span-3"
-                    type="number"
-                    required
-                    placeholder="Enter amount"
-                    value={amount}
-                    onChange={(e) => setAmount(Number(e.target.value))}
-                />
-                </div>
-            </div>
-            <DialogFooter>
-                <Button type="submit">Save changes</Button>
-                    <Button onClick={() => setIsOpened(false)} type="button" variant="secondary">
-                    Close
+    return (
+        <>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="overflow-hidden rounded-full"
+                    >
+                        <Image
+                            src={user?.username ? `https://ui-avatars.com/api/?background=115c02&color=fff&name={${user?.username.replace(" ", "+")}}` : `https://ui-avatars.com/api/?background=115c02&color=fff&name=John+Doe`}
+                            width={36}
+                            height={36}
+                            alt="Avatar"
+                            className="overflow-hidden rounded-full"
+                        />
                     </Button>
-            </DialogFooter>
-            </form>
-        </DialogContent>
-    </Dialog>
-    </>
-    
-  )
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="p-0">
+                        <Button onClick={() => setIsOpened(true)} variant="ghost" className="px-2 py-1.5 h-fit w-full justify-start font-normal">
+                            Topup
+                        </Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+            <Dialog open={isOpened}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        topup()
+                    }} >
+
+                        <DialogHeader>
+                            <DialogTitle>Topup</DialogTitle>
+                            <DialogDescription>
+                                Add funds to your account
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label className="text-right">
+                                    Amount
+                                </Label>
+                                <Input
+                                    id="amount"
+                                    className="col-span-3"
+                                    type="number"
+                                    required
+                                    placeholder="Enter amount"
+                                    value={amount}
+                                    onChange={(e) => setAmount(Number(e.target.value))}
+                                />
+                            </div>
+                        </div>
+                        <DialogFooter>
+                            <Button type="submit">Save changes</Button>
+                            <Button onClick={() => setIsOpened(false)} type="button" variant="secondary">
+                                Close
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+        </>
+
+    )
 }
 
 export default UserSettings

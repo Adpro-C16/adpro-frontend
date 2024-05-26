@@ -33,7 +33,7 @@ const Navbar = () => {
       </Link>
       <ul onClick={() => setShow(false)} className={`fixed top-0 sm:static ${show ? "left-0 bg-primary-500" : "-left-full"} text-xl sm:text-lg w-full h-svh sm:w-fit sm:h-full transition-all duration-500 flex items-center justify-center flex-col sm:flex-row gap-5 font-medium`}>
         <li>
-          <Link href="/products">Explore</Link>
+          <Link href="/store">Explore</Link>
         </li>
         {
           authToken ? (
