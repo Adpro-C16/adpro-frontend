@@ -132,84 +132,6 @@ const OrdersPage = () => {
             </CardHeader>
         </Card>
         </div>
-        <Card x-chunk="dashboard-06-chunk-0">
-                <CardHeader>
-                    <CardTitle>Orders</CardTitle>
-                    <CardDescription>
-                        Here are the list of orders you&apos;ve made
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-        <Table>
-            <TableHeader>
-                            <TableRow>
-                                <TableHead>Order ID</TableHead>
-                                <TableHead>Product Name</TableHead>
-                                <TableHead>Quantity</TableHead>
-                                <TableHead>Subtotal</TableHead>
-                                <TableHead className="hidden md:table-cell">
-                                    Status
-                                </TableHead>
-                                <TableHead className="hidden md:table-cell">
-                                    Date
-                                </TableHead>
-                                <TableHead>
-                                    <span className="">Actions</span>
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-            <TableBody>
-            {
-                orders.length > 0 ?
-                orders.map(order => (
-                    <TableRow key={order.id}>
-            <TableCell className="font-medium">
-                {order.id}
-            </TableCell>
-            <TableCell className="font-medium">
-                {order.product_name}
-            </TableCell>
-            <TableCell className="font-medium">
-                {order.quantity}
-            </TableCell>
-            <TableCell>{toRupiah(order.subtotal)}</TableCell>
-            <TableCell className="hidden md:table-cell">
-                <Badge variant={order.status === "Paid" ? "default" : "secondary"}>{order.status}</Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell">
-                {new Date(order.created_at).toLocaleString()}
-            </TableCell>
-            <TableCell>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            aria-haspopup="true"
-                            size="icon"
-                            variant="ghost"
-                        >
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Toggle menu</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => pay(order.id)}>Pay</DropdownMenuItem>
-                        {/* <DropdownMenuItem>Cancel</DropdownMenuItem> */}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </TableCell>
-        </TableRow>
-                ))
-                :
-                <TableRow>
-                    <TableCell colSpan={6} className="text-center text-xl py-7">No orders found</TableCell>
-                </TableRow>
-            }
-            
-            </TableBody>
-        </Table>
-        </CardContent>
-            </Card>
             <Card x-chunk="dashboard-06-chunk-0">
                 <CardHeader>
                     <CardTitle>Cart</CardTitle>
@@ -277,6 +199,62 @@ const OrdersPage = () => {
                 :
                 <TableRow>
                     <TableCell colSpan={6} className="text-center text-xl py-7">No items in your cart   </TableCell>
+                </TableRow>
+            }
+            
+            </TableBody>
+        </Table>
+        </CardContent>
+            </Card>
+            <Card x-chunk="dashboard-06-chunk-0">
+                <CardHeader>
+                    <CardTitle>Orders</CardTitle>
+                    <CardDescription>
+                        Here are the list of orders you&apos;ve made
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+        <Table>
+            <TableHeader>
+                            <TableRow>
+                                <TableHead>Order ID</TableHead>
+                                <TableHead>Product Name</TableHead>
+                                <TableHead>Quantity</TableHead>
+                                <TableHead>Subtotal</TableHead>
+                                <TableHead className="hidden md:table-cell">
+                                    Status
+                                </TableHead>
+                                <TableHead className="hidden md:table-cell">
+                                    Date
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+            <TableBody>
+            {
+                orders.filter(order => order.status !== "WaitingPayment").length > 0 ?
+                orders.filter(order => order.status !== "WaitingPayment").map(order => (
+                    <TableRow key={order.id}>
+            <TableCell className="font-medium">
+                {order.id}
+            </TableCell>
+            <TableCell className="font-medium">
+                {order.product_name}
+            </TableCell>
+            <TableCell className="font-medium">
+                {order.quantity}
+            </TableCell>
+            <TableCell>{toRupiah(order.subtotal)}</TableCell>
+            <TableCell className="hidden md:table-cell">
+                <Badge variant={order.status === "Paid" ? "default" : "secondary"}>{order.status}</Badge>
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+                {new Date(order.created_at).toLocaleString()}
+            </TableCell>
+        </TableRow>
+                ))
+                :
+                <TableRow>
+                    <TableCell colSpan={6} className="text-center text-xl py-7">No orders found</TableCell>
                 </TableRow>
             }
             
