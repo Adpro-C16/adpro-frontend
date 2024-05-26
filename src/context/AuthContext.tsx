@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { jwtDecode } from "jwt-decode";
+import { get } from "https";
 
 type AuthContextType = {
     authToken: string;
@@ -40,6 +41,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
             if (res.status !== 200) throw new Error(res.data);
             localStorage.setItem('token', res.data.body.AuthToken);
             setAuthToken(res.data.body.AuthToken);
+            getUser();
             router.replace('/dashboard');
             toast('Success!', {
                 icon: <CheckCheck size={18} color="green" />,
@@ -82,9 +84,9 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         router.replace('/auth/login');
     }
 
-    useEffect(() => {
+    const getUser = async () => {
         let token = localStorage.getItem('token');
-        console.log(token)
+        // console.log(token)
         if (token) {
             let decoded = jwtDecode<{exp: number; id: number; role: string}>(token);
             if (decoded.exp * 1000 < Date.now()) {
@@ -103,6 +105,10 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
                     });
             }
         }
+    }
+
+    useEffect(() => {
+        getUser();
     }, [])
 
     const contextValue = useMemo(() => ({
