@@ -12,7 +12,8 @@ export default function Sidebar() {
     const active = (href: string) => isActive(href) ? "bg-accent text-accent-foreground" : "text-muted-foreground";
 
     const { user } = useAuth();
-    
+    console.log(user)
+
     return (
         <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
             <nav className="flex flex-col items-center gap-4 px-2 py-4">
@@ -37,46 +38,46 @@ export default function Sidebar() {
                 </Tooltip>
                 {
                     user.role === "Admin" ?
-                    <>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Link
-                            href="/admin/supermarkets/create"
-                            className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/supermarkets/create"))}
-                        >
-                            <ShoppingCart className="h-5 w-5" />
-                            <span className="sr-only">Add Supermarkets</span>
-                        </Link>
-                    </TooltipTrigger>
-                    <TooltipContent side="right">Add Supermarkets</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Link
-                            href="/admin/managers"
-                            className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
-                        >
-                            <Users2 className="h-5 w-5" />
-                            <span className="sr-only">Managers</span>
-                        </Link>
-                    </TooltipTrigger>
-                    <TooltipContent side="right">Managers</TooltipContent>
-                </Tooltip>
-                </>
-                : 
-                <Tooltip>
-                <TooltipTrigger asChild>
-                    <Link
-                        href="/dashboard/cart"
-                        className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
-                    >
-                        <ShoppingCart className="h-5 w-5" />
-                        <span className="sr-only">Cart</span>
-                    </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Shopping Cart</TooltipContent>
-            </Tooltip>
-                }   
+                        <>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Link
+                                        href="/admin/supermarkets/create"
+                                        className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/supermarkets/create"))}
+                                    >
+                                        <ShoppingCart className="h-5 w-5" />
+                                        <span className="sr-only">Add Supermarkets</span>
+                                    </Link>
+                                </TooltipTrigger>
+                                <TooltipContent side="right">Add Supermarkets</TooltipContent>
+                            </Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Link
+                                        href="/admin/managers"
+                                        className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
+                                    >
+                                        <Users2 className="h-5 w-5" />
+                                        <span className="sr-only">Managers</span>
+                                    </Link>
+                                </TooltipTrigger>
+                                <TooltipContent side="right">Managers</TooltipContent>
+                            </Tooltip>
+                        </>
+                        :
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Link
+                                    href="/dashboard/cart"
+                                    className={cn("flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8", active("/admin/managers"))}
+                                >
+                                    <ShoppingCart className="h-5 w-5" />
+                                    <span className="sr-only">Cart</span>
+                                </Link>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">Shopping Cart</TooltipContent>
+                        </Tooltip>
+                }
             </nav>
         </aside>
     )
